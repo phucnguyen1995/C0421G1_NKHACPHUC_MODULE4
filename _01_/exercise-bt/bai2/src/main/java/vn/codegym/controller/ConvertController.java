@@ -11,15 +11,16 @@ import vn.codegym.model.service.IService;
 @Controller
 public class ConvertController {
     @Autowired
-    IService iService;
+    private IService iService;
+
     @RequestMapping(value = "/")
     public String convert() {
         return "index";
     }
 
 
-    @RequestMapping(value = "/converter", method = RequestMethod.POST)
-    public ModelAndView convertCurrency(@RequestParam("world") String world,
+    @RequestMapping(value = "/translate", method = RequestMethod.POST)
+    public ModelAndView translate(@RequestParam("world") String world,
                                         ModelAndView modelAndView) {
 
         String a=iService.dictionary(world);

@@ -13,7 +13,7 @@
     <title>Google dịch</title>
 </head>
 <body>
-<form action="/converter" method="post">
+<form action="/translate" method="post">
 
 
     <p>Nhập từ cần dịch</p>

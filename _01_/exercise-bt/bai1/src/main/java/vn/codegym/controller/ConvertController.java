@@ -11,7 +11,8 @@ import vn.codegym.model.service.IService;
 @Controller
 public class ConvertController {
     @Autowired
-    IService iService;
+    private IService iService;
+
     @RequestMapping(value = "/")
     public String convert() {
         return "index";

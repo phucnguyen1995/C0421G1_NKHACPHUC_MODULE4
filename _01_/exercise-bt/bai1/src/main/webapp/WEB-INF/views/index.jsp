@@ -25,8 +25,8 @@
 
 
      <c:if  test="${vnd != null}">
-         <p>Kết quả ra tiền việt là:</p>
-         <input type="text" name="vnd" value="${vnd}">
+         <p>Kết quả ra tiền việt là: ${vnd} </p>
+<%--         <input type="text" name="vnd" value="${vnd}">--%>
      </c:if>
 
  </form>
