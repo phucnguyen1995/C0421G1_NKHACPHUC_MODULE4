@@ -18,13 +18,9 @@
     <p>Sanwich Condiments</p>
 
     <input type="checkbox" id="vehicle1" name="order" value="Lettuce">
-
 <%--     "order" value="Lettuce"  : để get theo order và hiện ra giá trị đó (Lettuce)--%>
     <label for="vehicle1">Lettuce</label><br>
 
-<%--     <p>--%>
-<%--         <input type="checkbox" name="order" value="Lettuce"> Lettuce--%>
-<%--     </p>--%>
 
     <input type="checkbox" id="vehicle2" name="order" value="Tomato">
     <label for="vehicle2"> Tomato</label><br>

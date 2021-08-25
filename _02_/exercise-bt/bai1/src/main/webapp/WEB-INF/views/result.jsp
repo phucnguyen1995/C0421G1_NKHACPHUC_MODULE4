@@ -15,8 +15,9 @@
 
 <h3>
     <c:if test="${result == null}">
-<%--           <c:out value="Khach hàng không hài lòng nên không chọn món nào"></c:out>--%>
         <p>Khach hàng không hài lòng nên không chọn món nào</p>
+<%--        c2--%>
+<%--        ${mess}--%>
     </c:if>
 
     <c:if test="${result != null}">
