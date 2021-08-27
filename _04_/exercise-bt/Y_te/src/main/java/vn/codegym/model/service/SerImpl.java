@@ -12,7 +12,7 @@ import java.util.List;
 public class SerImpl implements ISer{
 
     @Autowired
-    IRepo iRepo;
+    private IRepo iRepo;
 
     @Override
     public PersonalInformation edit(PersonalInformation newPersonInfo) {

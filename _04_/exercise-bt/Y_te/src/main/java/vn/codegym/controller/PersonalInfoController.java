@@ -22,7 +22,7 @@ public class PersonalInfoController {
 
 
     @Autowired
-    ISer iSer;
+    private ISer iSer;
 
 
 
