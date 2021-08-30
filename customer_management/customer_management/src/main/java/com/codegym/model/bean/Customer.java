@@ -2,8 +2,11 @@ package com.codegym.model.bean;
 
 import javax.persistence.*;
 
-@Entity(name = "customer")
+//@Entity(name = "customer")
+//@Table
+
 @Table
+@Entity(name = "customer")
 public class Customer {
 
     @Id
@@ -12,7 +15,7 @@ public class Customer {
     private String name;
     private String email;
     private String address;
-    private String order;
+    private String orderCustomer;
 
     public Customer() {
     }
@@ -27,7 +30,7 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.address = address;
-        this.order = order;
+        this.orderCustomer = order;
     }
 
     public Customer(Integer id, String name, String email, String address) {
@@ -35,6 +38,14 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.address = address;
+    }
+
+    public Customer(Integer id, String name, String email, String address, String order) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.orderCustomer = order;
     }
 
     public Integer getId() {
@@ -53,12 +64,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getOrder() {
-        return order;
+    public String getOrderCustomer() {
+        return orderCustomer;
     }
 
-    public void setOrder(String order) {
-        this.order = order;
+    public void setOrderCustomer(String orderCustomer) {
+        this.orderCustomer = orderCustomer;
     }
 
     public String getEmail() {

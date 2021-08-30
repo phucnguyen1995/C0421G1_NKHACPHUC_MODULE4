@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping(value = {"/", "/product"})
 public class ProductController {
     @Autowired
-    private IProductService productService;
+     private IProductService productService;
 
     @GetMapping("")
     public String index(Model model, RedirectAttributes redirectAttributes) {

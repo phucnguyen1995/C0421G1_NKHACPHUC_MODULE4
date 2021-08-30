@@ -12,7 +12,7 @@ import java.util.List;
 public class ProductServiceImpl implements IProductService {
 
     @Autowired
-    IProductRepository productRepository;
+    private IProductRepository productRepository;
 
     @Override
     public List<Product> findAll() {
