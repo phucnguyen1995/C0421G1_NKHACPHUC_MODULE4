@@ -3,10 +3,16 @@ package com.example.bai6.controller;
 import com.example.bai6.model.bean.Product;
 import com.example.bai6.model.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+
 
 @Controller
 //@RequestMapping("")
@@ -15,10 +21,24 @@ public class ProductController {
     @Autowired
     private IProductService iProductService;
 
+//    @GetMapping("/")
+//    public ModelAndView showList() {
+//        return new ModelAndView("list","List",iProductService.findAll());
+//    }
+
+
+
+//    phân trang
+
     @GetMapping("/")
-    public ModelAndView showList() {
-        return new ModelAndView("list","List",iProductService.findAll());
+    public ModelAndView showList(@PageableDefault(value = 1) Pageable pageable) {
+        Page<Product> products=iProductService.finAllAndPage(pageable);
+        return new ModelAndView("list","List",products);
     }
+
+
+
+
 
     @GetMapping("/create")
     public String create(Model model) {
@@ -45,7 +65,7 @@ public class ProductController {
     public String delete(@PathVariable int id){
         iProductService.delete(id);
         return "redirect:/";
-//        lôi duong link 404
+//        lôi duong link la loi 404
     }
 
     @GetMapping("/search")
@@ -73,5 +93,7 @@ public class ProductController {
 //        model.addAttribute("product",iProductService.viewP(id));
 //        return "view";
 //    }
+
+
 
 }
