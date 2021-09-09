@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<p>
+    <a href="/cart" style="font-size: 35px; font-weight: bold">Your cart</a>
+</p>
+<th:block th:if="${message}">
+    <h3> <p th:text="${message}" style="color: blue"></p></h3>
+</th:block>
+<table border="1" style="margin: 0 auto">
+    <tr>
+        <td>Name</td>
+        <td>Image</td>
+        <td>Description</td>
+        <td>Price</td>
+        <td>Discount</td>
+        <td>Add To Cart</td>
+    </tr>
+    <th:block th:each="product:${productList}">
+        <tr>
+            <td th:text="${product.name}" style="font-weight: bold"></td>
+            <td>
+                <a th:href="@{/shop/detail/{id}(id=${product.id})}">
+                    <img th:src="${product.image}" style="width: 250px; height: 250px; margin: 15px">
+                </a>
+            </td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.discount}"></td>
+            <td><a th:href="@{/shop/add/__${product.id}__(action='')}">Add To Cart</a></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.codegym.controller;
 
+import com.codegym.exception.OutOfStockException;
+import com.codegym.exception.WrongCodeException;
 import com.codegym.model.entity.Book;
 import com.codegym.model.entity.CodeBook;
 import com.codegym.model.service.IBookService;
@@ -30,10 +32,10 @@ public class LibraryController {
 
 
     @GetMapping("/view/{id}")
-    public String view(@PathVariable int id, Model model)  {
+    public String view(@PathVariable int id, Model model) throws OutOfStockException {
         Book book = bookService.findById(id);
         if (book.getQuantity() == 0){
-          return "out_of_stock";
+            throw new OutOfStockException();
         }else {
             model.addAttribute("book", book);
             return "borrow";
@@ -54,16 +56,21 @@ public class LibraryController {
         return "redirect:/book/list";
     }
 
+    @ExceptionHandler(OutOfStockException.class)
+    public String outOfStock() {
+        return "out_of_stock";
+    }
+
     @GetMapping("/give")
     public ModelAndView showGiveBook() {
         return new ModelAndView("give_book","bookCode",new CodeBook());
     }
 
     @PostMapping("/give")
-    public String giveBook(CodeBook customerCode, Model model)  {
+    public String giveBook(CodeBook customerCode, Model model) throws WrongCodeException {
         CodeBook rentCode = customerCodeService.findByCode(customerCode.getCodeForBook());
         if (rentCode == null) {
-            return "wrong_code";
+            throw new WrongCodeException();
         }
 
         Book book = rentCode.getBook();
@@ -76,5 +83,8 @@ public class LibraryController {
         return "redirect:/book/list";
     }
 
-
+    @ExceptionHandler(WrongCodeException.class)
+    public String wrongCode() {
+        return "wrong_code";
+    }
 }
