@@ -13,10 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -76,13 +73,13 @@ public class ProductController {
 
     @GetMapping("/remove/{id}")
     public String removeProduct(@ModelAttribute("cart") CartDto cart,@PathVariable("id") Long id){
-        Product product = this.iProductService.findById(id).get();
+        Optional<Product> product = this.iProductService.findById(id);
 
         ProductDto productDto = new ProductDto();
-        BeanUtils.copyProperties(product, productDto);
-        cart.remove(productDto);
-
-        return "redirect:/cart";
+        if (product.isPresent()) {
+            BeanUtils.copyProperties(product, productDto);
+            cart.remove(productDto);
+        } return "redirect:/cart";
     }
 
 }
