@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Controller
+//B1
 @SessionAttributes("cart")
 @RequestMapping("/shop")
 public class ProductController {
@@ -24,6 +25,7 @@ public class ProductController {
     @Autowired
     private IProductService iProductService;
 
+//B2
     @ModelAttribute("cart")
     public CartDto initCart() {
         return new CartDto();
@@ -38,6 +40,7 @@ public class ProductController {
         return new ModelAndView("product/list", "productList", this.iProductService.findAll());
     }
 
+//    B3
     @GetMapping("/add/{id}")
     public String addToCart(@PathVariable("id") long id, @SessionAttribute("cart") CartDto cart, RedirectAttributes attributes, @RequestParam("action") String action) {
         Optional<Product> productOptional = iProductService.findById(id);
