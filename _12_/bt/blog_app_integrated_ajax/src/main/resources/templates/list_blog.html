@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog List</title>
+</head>
+<body class="body">
+<div>
+    <input type="text" name="keyword" id="keyword">
+    <button type="submit" id="search">Search</button>
+</div>
+
+<table border="1">
+    <thead>
+    <tr>
+        <td>No#</td>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Content</td>
+        <td>Category</td>
+         <td>Detail</td>
+    </tr>
+    </thead>
+    <tbody id="tableBlog">
+
+    </tbody>
+</table>
+
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Blog</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="blog-name"><br>
+                <input type="text" id="blog-conten"><br>
+                <input type="text" id="category-blog"><br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="load">Load More</button>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    let page = 0
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin':  'http://localhost:8080/blog/list',
+        },
+        type: "GET",
+        url: "http://localhost:8080/blog/list?page=" +page,
+        success: function (data) {
+
+            console.log(data)
+            let resultContent = data.content;
+            let result = "";
+            for(let i = 0; i<resultContent.length;i++){
+                result += "<tr>";
+                result += "<th scope='row'>" + (i + 1) + "</th>";
+                result += "<td>" + resultContent[i].id + "</td>";
+                result += "<td>" + resultContent[i].name + "</td>";
+                result += "<td>" + resultContent[i].content + "</td>";
+                result += "<td>" + resultContent[i].category.typeCategory + "</td>";
+                result += "</tr>";
+            }
+            $("#tableBlog").append(result);
+        },
+        error: function(resultError) {
+            console.log("Error: ");
+            console.log(resultError);
+        }
+    });
+
+    $('.load').click(function () {
+        page++;
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            type: "GET",
+            url: "http://localhost:8080/blog/list?page=" + page,
+            success: function (data) {
+                if(data === undefined){
+
+                    $('.load').hide();
+                    alert("Sai Rồi bạn ơi")
+                }
+                console.log(data);
+                let resultContent = data.content;
+                let result = "";
+                for (let i = 0; i < resultContent.length; i++) {
+                    result += "<tr>";
+                    result += "<th scope='row'>" + (page + 1) + "</th>";
+                    result += "<td>" + resultContent[i].id + "</td>";
+                    result += "<td>" + resultContent[i].name + "</td>";
+                    result += "<td>" + resultContent[i].content + "</td>";
+                    result += "<td>" + resultContent[i].category.typeCategory + "</td>";
+                    result += "<td><button onclick=\"showDetail(${" + resultContent[i].id +  "})\" type=\"button\" class=\"btn btn-info\" data-bs-toggle=\"modal\"\n" +
+                        "                        data-bs-target=\"#detailModal\">\n" +
+                        "                    View Detail\n" +
+                        "                </button></td>";
+                    result += "</tr>";
+                }
+                $("#tableBlog").append(result);
+
+            },
+
+            error: function (data) {
+                console.log(data.content)
+            },
+        });
+    })
+
+    function showDetail(id) {
+        $.ajax({
+            url: 'http://localhost:8080/' + id,
+            type: 'get',
+            dateType: 'json',
+            success: function (data) {
+                $('#blog-name').value = data.name;
+                $('#blog-conten').value = data.content;
+                $('#category-blog').value = data.category.typeCategory;
+            }
+        })
+    }
+
+
+    $("#search").click(function () {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':  'http://localhost:8080/blog/load',
+            },
+            type: "GET",
+            url: "http://localhost:8080/blog/search/" + $('#keyword').val(),
+            success: function (data) {
+                console.log(data);
+                let result = "";
+                for(let i = 0; i<data.length;i++){
+                    result += "<tr>";
+                    result += "<th scope='row'>" + (i + 1) + "</th>";
+                    result += "<td>" + data[i].id + "</td>";
+                    result += "<td>" + data[i].name + "</td>";
+                    result += "<td>" + data[i].content + "</td>";
+                    result += "<td>" + data[i].category.typeCategory + "</td>";
+                    result += "</tr>";
+                }
+                $("#tableBlog").html(result);
+            }
+        })
+    });
+</script>
+</body>
+</html>
